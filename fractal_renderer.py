@@ -7,6 +7,10 @@ BG = (0xEE, ) * 3
 FG = (0x18, ) * 3
 
 
+def ease_in(x: float) -> float:
+    return max(0, 1.2*x*x-0.2)
+
+
 def apply_rule(points: list, rule: list):
     lst = []
     for i in range(len(points)):
@@ -91,17 +95,16 @@ def render_animation(
     for it in range(iter_n+1):
         print(it+1, "/", iter_n+1)
         for i in range(iter_frames):
-            x = (i+1) / iter_frames
+            x = ease_in((i+1) / iter_frames)
+
             img = FractalRenderer(
                 points=points,
                 rule=rule(x),
                 iter_n=int(it != 0),
                 size=size,
-                ppu=int(min(size) * 0.6 * (
-                    1 if it != 0
-                    else x
-                ))
+                ppu=int(min(size) * 0.6 * (1 if it != 0 else x))
             ).render()
+
             frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
             video.write(frame)
 

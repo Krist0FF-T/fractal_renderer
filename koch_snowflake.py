@@ -2,13 +2,13 @@ from math import sin, pi
 from fractal_renderer import render_animation
 
 
-SIZE = (1920*2, 1080*2)
-NAME = "out/koch"
+SIZE = (1920, 1080)
+NAME = "out_1080p/koch"
 N = 6
 
 
 def rule(x: float) -> list:
-    a = max(0, 1.2*x*x - 0.2) / 3
+    a = x/3
     return [
         (0.5 - a/2, 0),
         (0.5, sin(pi/3)*a),
